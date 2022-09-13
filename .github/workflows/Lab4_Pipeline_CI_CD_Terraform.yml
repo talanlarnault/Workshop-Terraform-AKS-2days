@@ -37,6 +37,7 @@ jobs:
         run: |
           cd ./Terraform/Lab4_Pipeline_CI_CD_Terraform
           terraform plan -var 'AzureSubscriptionID=${{ secrets.SUBSCRIPTIONID }}' -var 'AzureClientSecret=${{ secrets.CLIENTSECRET }}' -var 'AzureClientID=${{ secrets.CLIENTID }}' -var 'AzureTenandID=${{ secrets.TENANTID }}' -lock=false -out=monplan.tfplan
+          terraform show monplan.tfplan > monplantf.json
       
       #test with CHECKOV
       - name: Set up Python 3.8
@@ -45,9 +46,9 @@ jobs:
           python-version: 3.8
       - name: Test with Checkov
         id: checkov
-        run: |
-          cd ./Terraform/Lab4_Pipeline_CI_CD_Terraform
-          checkov -f monplan.tfplan
+        uses: bridgecrewio/checkov-action@v12.1347.0
+        with:
+          directory: ./Terraform/Lab4_Pipeline_CI_CD_Terraform
       #END TEST
       # apply a execution plan https://www.terraform.io/cli/commands/apply      
       - name: Terraform Apply

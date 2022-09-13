@@ -30,6 +30,8 @@ variable "AzureTenandID" {
   type = string
 }
 
-
+variable "encrypted" {
+  type = bool
+}
 
 

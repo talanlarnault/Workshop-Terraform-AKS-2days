@@ -45,10 +45,9 @@ jobs:
           python-version: 3.8
       - name: Test with Checkov
         id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: example/examplea
-          framework: terraform 
+        run: |
+          cd ./Terraform/Lab4_Pipeline_CI_CD_Terraform
+          checkov -f monplan.tfplan
       #END TEST
       # apply a execution plan https://www.terraform.io/cli/commands/apply      
       - name: Terraform Apply
